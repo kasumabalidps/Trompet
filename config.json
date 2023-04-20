@@ -1,7 +1,5 @@
 {
     "Prefix": ">",
     "MainColor": "#fab028",
-    "ErrorColor": "#fc0808",
-    "ClientID": "",
-    "Token": ""
+    "ErrorColor": "#fc0808"
 }
