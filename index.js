@@ -18,6 +18,9 @@ const func = require('./utils/functions');
 const { row2, row3 } = require('./utils/components');
 const config = require('./config.json');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 // Discord Client Constructor
 const client = new Discord.Client({
     intents: [
@@ -556,4 +559,4 @@ process.on('uncaughtExceptionMonitor', (err, origin) => {
 });
 
 // Discord Client login
-client.login(config.Token);
+client.login(process.env.TOKENBOT);
