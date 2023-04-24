@@ -60,7 +60,7 @@ for (const file of slashCommands) {
     delete require.cache[require.resolve(`./commands/interactions/${file}`)];
 };
 
-client.distube = new DisTube(client, {  // DisTube client constructor
+client.distube = new DisTube(client, {  // DisTube client constructo
     // Change these on your risk! more info https://distube.js.org/#/docs/DisTube/stable/typedef/DisTubeOptions
 
     emitNewSongOnly: false,                 // Whether or not emitting DisTube#event:playSong event when looping a song or next song is the same as the previous one
