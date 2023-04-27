@@ -2,17 +2,19 @@ const Discord = require('discord.js');
 const os = require('node:os');
 const func = require('../../utils/functions');
 const config = require('../../config.json');
+const ping = require('ping');
 
 module.exports = {
     data: new Discord.SlashCommandBuilder()
-        .setName("ping")
-        .setDescription("Shows the bot\'s latency."),
+        .setName("status")
+        .setDescription("Shows the bot\'s latency and Memory usage"),
     memberVoice: false,
     botVoice: false,
     sameVoice: false,
     queueNeeded: false,
 
     async execute(client, interaction, memberVC, botVC, queue) {
+        let serverPing = await ping.promise.probe('discord.com');
 
         await interaction.deferReply();
 
@@ -25,12 +27,17 @@ module.exports = {
             .addFields(
                 {
                     name: `📡 Ping:`,
-                    value: `${client.ws.ping}ms`,
+                    value: `${serverPing.time}ms`,
                     inline: true
                 },
                 {
                     name: `💾 Memory:`,
                     value: `${func.numberWithCommas(Math.round((process.memoryUsage().rss / 1024 / 1024)))}/${func.numberWithCommas(Math.round(os.totalmem() / 1024 / 1024))}MB`,
+                    inline: true
+                },
+                {
+                    name: `💻 CPU:`,
+                    value: `${(process.cpuUsage().user / 1000000).toFixed(2)}%`,
                     inline: true
                 },
                 {
@@ -40,7 +47,7 @@ module.exports = {
                 },
             )
             .setFooter({
-                text: `Commanded by ${interaction.user.tag}`,
+                text: `Execute by ${interaction.user.tag}`,
                 iconURL: interaction.user.displayAvatarURL({ size: 1024 })
             });
 

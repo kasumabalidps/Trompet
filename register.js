@@ -12,7 +12,7 @@ for (const file of commandFiles) {
     commands.push(command.data.toJSON());
 }
 
-const rest = new Discord.REST({ version: '10' }).setToken(config.Token);
+const rest = new Discord.REST({ version: '10' }).setToken(process.env.TOKENBOT);
 
 (async () => {
 

@@ -45,7 +45,7 @@ module.exports = {
                 },
             )
             .setFooter({
-                text: `Commanded by ${message.author.tag}`,
+                text: `Execute by ${message.author.tag}`,
                 iconURL: message.author.displayAvatarURL({ size: 1024 })
             });
 
