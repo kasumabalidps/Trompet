@@ -6,23 +6,15 @@ const ping = require('ping');
 
 module.exports = {
     name: "Status",
-    aliases: ["S", "Latency", "Ping"],
-    description: "Shows the bot\'s latency.",
+    aliases: ["S", "Latency", "Ping", "P"],
+    description: "Shows the bot's latency and Memory usage",
     memberVoice: false,
     botVoice: false,
     sameVoice: false,
     queueNeeded: false,
 
     async execute(client, message, args, cmd, memberVC, botVC, queue) {
-
-        const cpuUsage = process.cpuUsage();
-        const uptimeSeconds = process.uptime();
-        const cpuPercent = ((cpuUsage.user + cpuUsage.system) / 1000 / uptimeSeconds) * 100;
-        const serverPing = await ping.promise.probe('discord.com');
-
-        if (!serverPing || !serverPing.time) {
-            serverPing.time = 'unknown';
-          }
+        let serverPing = await ping.promise.probe('discord.com');
 
         const embed = new Discord.EmbedBuilder()
             .setColor(config.MainColor)
@@ -42,8 +34,7 @@ module.exports = {
                     inline: true
                 },
                 {
-                    name: `🖥️ CPU:`,
-                    // value: `${cpuPercent.toFixed(2)}%`,
+                    name: `💻 CPU:`,
                     value: `${(process.cpuUsage().user / 1000000).toFixed(2)}%`,
                     inline: true
                 },
@@ -58,24 +49,8 @@ module.exports = {
                 iconURL: message.author.displayAvatarURL({ size: 1024 })
             });
 
-            const messageReply = await message.reply({ embeds: [embed] });
+        return await message.reply({ embeds: [embed] });
 
-            setInterval(async () => {
-                const cpuUsage = process.cpuUsage();
-                const uptimeSeconds = process.uptime();
-                cpuPercent = ((cpuUsage.user + cpuUsage.system) / 1000 / uptimeSeconds) * 100;
-                serverPing = await ping.promise.probe('discord.com');
-    
-                if (!serverPing || !serverPing.time) {
-                    serverPing.time = 'unknown';
-                }
-    
-                embed.fields[0].value = `${serverPing.time}ms`;
-                embed.fields[2].value = `${cpuPercent.toFixed(2)}%`;
-    
-                await messageReply.edit({ embeds: [embed] });
-            }, 5000);
-    
-        },
-    
-    };
+    },
+
+};
